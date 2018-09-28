@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>上传照片</title>
+    <link rel="stylesheet" type="text/css" href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui.min.css">
+    <link rel="stylesheet" type="text/css" href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui-append.css">
+    <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js"></script>
+    <style type="text/css">
+        body {
+            line-height: normal;
+            font-size: 1em;
+        }
+
+        .content,
+            {
+            width: 80%;
+            height: auto;
+            margin: 30px auto;
+        }
+
+        .box {
+            width: 100%;
+            height: auto;
+            border: 1px dotted #ddd;
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .preview,
+        .queueList {
+            width: auto;
+            height: auto;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .preview img {
+            width: 150px;
+            height: auto;
+            padding: 30px 30px;
+            vertical-align: middle;
+        }
+
+        .sui-progress {
+            display: none;
+        }
+
+        button.add {
+            margin: 30px auto;
+        }
+
+        .upload {
+            width: 70%;
+            height: auto;
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <!-- 选择图片 -->
+        <div class="box">
+            <!-- 图片预览 -->
+            <div class="preview">
+
+            </div>
+            <button type="button" class="sui-btn btn-primary add">添加照片</button>
+            <!-- 进度条 -->
+            <div class="sui-progress progress-striped active">
+                <div style="width: 0;" class="bar"></div>
+            </div>
+        </div>
+        <!-- 上传图片 -->
+        <div class="upload">
+            <button type="button" class="sui-btn btn-primary submit">上传照片</button>
+            <input type="file" name="file" class='hidden' id="file">
+        </div>
+    </div>
+    <script type="text/javascript">
+        var parent = document.getElementsByClassName('preview')[0];
+        var flag = 0;
+        $('.content button.add').on('click', function () {
+            $('#file').click();
+            flag++;
+            $('#file').bind('change', function () {
+                var imgs = document.getElementsByTagName('img');
+                console.log(flag, imgs.length);
+                if (flag == imgs.length + 1) {
+                    var img = document.createElement('img');
+                    // debugger;
+                    parent.appendChild(img);
+                    console.log(img);
+                    var file = document.getElementById('file').files[0];
+                    console.log(file);
+                    var url = window.URL.createObjectURL(file);
+                    console.log(url);
+                    $(img).attr('src', url);
+                }
+            });
+            $('.content btton.submit').on('click', function () {
+                $('.sui-progress').css('display', 'block');
+                var timer = setInterval(function () {
+                    changeWidth();
+                }, 50)
+            })
+            var width = 0;
+            var bar = $('.content .bar');
+            function changeWidth() {
+                width += 10;
+                bar.css('width', width + "%");
+            }
+        })
+    </script>
+</body>
+
+</html>
